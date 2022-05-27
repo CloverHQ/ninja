@@ -5,8 +5,14 @@ require('dotenv').config();
 const { readFile } = require('fs/promises');
 const path = require('path');
 
-const qlDir = process.env.QL_DIR || '/ql';
-const authFile = path.join(qlDir, 'config/auth.json');
+const qlDir = '/ql';
+const fs = require('fs');
+let Fileexists = fs.existsSync('/ql/data/config/auth.json');
+let authFile="";
+if (Fileexists)
+	authFile="/ql/data/config/auth.json"
+else
+	authFile="/ql/config/auth.json"
 
 const api = got.extend({
   prefixUrl: process.env.QL_URL || 'http://localhost:5600',
