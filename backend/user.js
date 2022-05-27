@@ -196,6 +196,7 @@ module.exports = class User {
     const envs = await getEnvs();
     const poolInfo = await User.getPoolInfo();
     const env = await envs.find((item) => item.value.match(/pt_pin=(.*?);/)[1] === this.pt_pin);
+    console.log(env)
     if (!env) {
       // 新用户
       if (!poolInfo.allowAdd) {
@@ -214,8 +215,8 @@ module.exports = class User {
         this.#sendNotify('Ninja 运行通知', `用户 ${this.nickName}(${decodeURIComponent(this.pt_pin)}) 已上线`);
       }
     } else {
-      this.eid = env._id;
-      const body = await updateEnv(this.cookie, this.eid);
+      this.eid = env.id;
+      const body = await updateEnv(this.cookie, this.eid, env.remarks);
       if (body.code !== 200) {
         throw new UserError(body.message || '更新账户错误，请重试', 221, body.code || 200);
       }
@@ -233,7 +234,10 @@ module.exports = class User {
 
   async getUserInfoByEid() {
     const envs = await getEnvs();
-    const env = await envs.find((item) => item._id === this.eid);
+    console.log(this.eid)
+    console.log(envs)
+    const env = await envs.find((item) => item.id === parseInt(this.eid));
+    console.log(env)
     if (!env) {
       throw new UserError('没有找到这个账户，重新登录试试看哦', 230, 200);
     }

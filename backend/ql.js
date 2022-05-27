@@ -12,7 +12,7 @@ let authFile="";
 if (Fileexists)
 	authFile="/ql/data/config/auth.json"
 else
-	authFile="/ql/config/auth.json"
+	authFile="/Users/aaron/Downloads/auth.json"
 
 const api = got.extend({
   prefixUrl: process.env.QL_URL || 'http://localhost:5600',
@@ -67,21 +67,25 @@ module.exports.addEnv = async (cookie, remarks) => {
 
 module.exports.updateEnv = async (cookie, eid, remarks) => {
   const token = await getToken();
+  const data = {
+    name: 'JD_COOKIE',
+    value: cookie,
+    id: eid,
+    remarks,
+  }
+  const headers = {
+    Accept: 'application/json',
+    authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Length': JSON.stringify(data, null, 4).length.toString()
+  }
   const body = await api({
     method: 'put',
     url: 'api/envs',
+    stringifyJson: object => JSON.stringify(object, null, 4),
     params: { t: Date.now() },
-    json: {
-      name: 'JD_COOKIE',
-      value: cookie,
-      _id: eid,
-      remarks,
-    },
-    headers: {
-      Accept: 'application/json',
-      authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
+    json: data,
+    headers: headers,
   }).json();
   return body;
 };
