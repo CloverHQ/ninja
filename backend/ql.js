@@ -77,12 +77,14 @@ module.exports.updateEnv = async (cookie, eid, remarks) => {
     Accept: 'application/json',
     authorization: `Bearer ${token}`,
     'Content-Type': 'application/json;charset=UTF-8',
-    'Content-Length': JSON.stringify(data, null, 4).length.toString()
+    'Content-Length': Buffer.byteLength(JSON.stringify(data), 'utf-8')
   }
+  console.log( JSON.stringify(data))
+  console.log(headers)
   const body = await api({
     method: 'put',
     url: 'api/envs',
-    stringifyJson: object => JSON.stringify(object, null, 4),
+    stringifyJson: object => JSON.stringify(object),
     params: { t: Date.now() },
     json: data,
     headers: headers,
