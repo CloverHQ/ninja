@@ -12,7 +12,7 @@ let authFile="";
 if (Fileexists)
 	authFile="/ql/data/config/auth.json"
 else
-	authFile="/Users/aaron/Downloads/auth.json"
+	authFile="/ql/config/auth.json"
 
 const api = got.extend({
   prefixUrl: process.env.QL_URL || 'http://localhost:5600',
