@@ -225,7 +225,7 @@ module.exports = class User {
       this.#sendNotify('Ninja 运行通知', `用户 ${this.nickName}(${decodeURIComponent(this.pt_pin)}) 已更新 CK`);
     }
     return {
-      nickName: this.nickName,
+      nickName: this.remark,
       eid: this.eid,
       timestamp: this.timestamp,
       message,
@@ -247,9 +247,9 @@ module.exports = class User {
     if (remarks) {
       this.remark = remarks.match(/remark=(.*?);/) && remarks.match(/remark=(.*?);/)[1];
     }
-    await this.#getNickname();
+    // await this.#getNickname();
     return {
-      nickName: this.nickName,
+      nickName: this.remark,
       eid: this.eid,
       timestamp: this.timestamp,
       remark: this.remark,
