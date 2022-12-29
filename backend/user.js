@@ -192,7 +192,7 @@ module.exports = class User {
 
   async CKLogin() {
     let message;
-    await this.#getNickname();
+    // await this.#getNickname();
     const envs = await getEnvs();
     const poolInfo = await User.getPoolInfo();
     const env = await envs.find((item) => item.value.match(/pt_pin=(.*?);/)[1] === this.pt_pin);
